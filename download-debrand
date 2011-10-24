@@ -1,0 +1,42 @@
+#! /bin/sh
+
+if [ -f /usr/bin/renamexm ]; then
+	RENAME=renamexm
+elif [ -f /usr/bin/rename ]; then
+	RENAME=rename
+else
+	exit 1
+fi
+
+${RENAME} -s/'HDTV'//g *
+${RENAME} -s/'XviD'//g *
+${RENAME} -s/'LOL'//g *
+${RENAME} -s/'[VTV]'//g *
+${RENAME} -s/'PROPER'//g *
+${RENAME} -s/'FQM'//g *
+${RENAME} -s/'X264'//g *
+${RENAME} -s/'DIMENSION'//g *
+${RENAME} -s/'720p'//g *
+${RENAME} -s/'2HD'//g *
+${RENAME} -s/'ASAP'//g *
+${RENAME} -s/'FEVER'//g *
+${RENAME} -s/'IMMERSE'//g *
+${RENAME} -s/'x264'//g *
+${RENAME} -s/'TLA'//g *
+${RENAME} -s/'ORENJI'//g *
+${RENAME} -s/'MiNT'//g *
+${RENAME} -s/'REPACK'//g *
+${RENAME} -s/'XVID'//g *
+${RENAME} -s/'BAJSKORV'//g *
+${RENAME} -s/'P0W4'//g *
+${RENAME} -s/'-'/' '/g *
+${RENAME} -s/'.'/' '/g *
+
+${RENAME} -s/'    '/' '/g *
+${RENAME} -s/'   '/' '/g *
+${RENAME} -s/'  '/' '/g *
+
+${RENAME} -s/' avi'/'.avi'/ *
+${RENAME} -s/' mkv'/'.avi'/ *
+${RENAME} -s/' mp4'/'.mp4'/ *
+${RENAME} -s/' ts'/'.ts'/ *
