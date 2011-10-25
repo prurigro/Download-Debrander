@@ -1,0 +1,8 @@
+This is a simple script to remove branding from downloads, using this version of rename: http://rename.berlios.de/
+
+It assumes rename exists in '/usr/bin' and is called either 'rename' or 'renamexm' (if there are two copies of rename on your system, renamexm would be the one with regular expressions)
+
+There's not much too this script, but its licensed under the GPLv2; feel free to contribute more tags to the section at the top.
+If the list begins to become unweildy in the future, it might eventually become time for a more creative way to manage them.
+
+usage: assuming download-debrand is in your $PATH, run 'download-debrand' in the directory you'd like the changes to take place and it will rename all files in that directory, non-recursively.

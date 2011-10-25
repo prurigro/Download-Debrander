@@ -29,8 +29,14 @@ ${RENAME} -s/'REPACK'//g *
 ${RENAME} -s/'XVID'//g *
 ${RENAME} -s/'BAJSKORV'//g *
 ${RENAME} -s/'P0W4'//g *
+${RENAME} -s/'hdtv'//g *
+${RENAME} -s/'xvid'//g *
+${RENAME} -s/'2hd'//g *
+${RENAME} -s/'NoTV'//g *
 ${RENAME} -s/'-'/' '/g *
 ${RENAME} -s/'.'/' '/g *
+
+${RENAME} -s/'s01e'/'S01E'/g *
 
 ${RENAME} -s/'    '/' '/g *
 ${RENAME} -s/'   '/' '/g *
