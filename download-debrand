@@ -24,7 +24,7 @@
 RENAME='renamexm'
 
 #THE NAMES OF VARIOUS RELEASE GROUPS (CASE SENSITIVE)
-SCENE=('[' ']' '2HD' 'ASAP' 'BAJSKORV' 'BiA' 'CaRaT' 'COMPULSiON' 'DIMENSION' 'EVOLVE' 'EXCELLENCE' 'FEVER' 'FoV' 'FQM' 'IMMERSE' 'LOL' 'MiNT' 'NoTV' 'ORENJI' 'Orenji' 'P0W4' 'PDTV' 'RiVER' 'RM' 'TLA' 'TVSR' 'VTV' 'WS' 'KILLERS' 'ANON' 'asap' 'lol' 'fqm' 'AFG' 'SaMettv' 'QCF' 'pdtv' 'c4tv' 'BRiTiSH' 'HerMes' 'ReEnc' 'Max' '2hd' 'killers' 'YIFY')
+SCENE=('[' ']' '2HD' 'ASAP' 'BAJSKORV' 'BiA' 'CaRaT' 'COMPULSiON' 'DIMENSION' 'EVOLVE' 'EXCELLENCE' 'FEVER' 'FoV' 'FQM' 'IMMERSE' 'LOL' 'MiNT' 'NoTV' 'ORENJI' 'Orenji' 'P0W4' 'PDTV' 'RiVER' 'RM' 'TLA' 'TVSR' 'ViP3R' 'VTV' 'WS' 'KILLERS' 'ANON' 'asap' 'lol' 'fqm' 'AFG' 'SaMettv' 'QCF' 'pdtv' 'c4tv' 'BRiTiSH' 'HerMes' 'ReEnc' 'Max' '2hd' 'killers' 'YIFY')
 
 #TAGS USED BY GROUPS TO GIVE INFORMATION ABOUT THE VIDEO (NOT CASE SENSITIVE)
 INFORMATION=('720p' 'hdtv' 'proper' 'repack' 'x264' 'xvid' 'webrip' 'bluray' 'ffmpeg')
