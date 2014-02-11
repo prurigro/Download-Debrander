@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /usr/bin/env bash
 
 # --------------------------------------------------- #
 #                  download-debrand                   #
@@ -9,7 +9,7 @@
 #                                                     #
 # Developer: Prurigro                                 #
 # Contact: prurigro at gmail dot com                  #
-# Version: 1.0                                        #
+# Version: 2.0                                        #
 #                                                     #
 # If you find this script useful but have ideas about #
 # how to make it better, found bugs, need help using  #
@@ -19,23 +19,55 @@
 # on gnu.org @ http://www.gnu.org/copyleft/gpl.html   #
 # --------------------------------------------------- #
 
-
-#THE NAME OF THE BINARY FOR THE VERSION OF RENAME @ http://rename.berlios.de/
-RENAME='renamexm'
-
 #THE NAMES OF VARIOUS RELEASE GROUPS (CASE SENSITIVE)
-SCENE=('[' ']' '2HD' 'ASAP' 'BAJSKORV' 'BiA' 'CaRaT' 'COMPULSiON' 'DIMENSION' 'EVOLVE' 'EXCELLENCE' 'FEVER' 'FoV' 'FQM' 'IMMERSE' 'LOL' 'MiNT' 'NoTV' 'ORENJI' 'Orenji' 'P0W4' 'PDTV' 'RiVER' 'RM' 'TLA' 'TVSR' 'ViP3R' 'VTV' 'WS' 'KILLERS' 'ANON' 'asap' 'lol' 'fqm' 'AFG' 'SaMettv' 'QCF' 'pdtv' 'c4tv' 'BRiTiSH' 'HerMes' 'ReEnc' 'Max' '2hd' 'killers' 'YIFY')
+SCENE=('2HD' '2hd' 'AFG' 'ANON' 'ASAP' 'asap' 'BAJSKORV' 'BiA' 'BRiTiSH' 'c4tv' 'CaRaT' 'COMPULSiON' 'DIMENSION' 'EVOLVE' 'EXCELLENCE' 'FEVER' 'FoV' 'FQM' 'fqm' 'HerMes' 'IMMERSE' 'KILLERS' 'killers' 'LOL' 'lol' 'Max' 'MiNT' 'NoTV' 'ORENJI' 'Orenji' 'P0W4' 'PDTV' 'pdtv' 'QCF' 'ReEnc' 'RiVER' 'RM' 'SaMettv' 'TLA' 'TVSR' 'ViP3R' 'VTV' 'WS' 'YIFY')
 
 #TAGS USED BY GROUPS TO GIVE INFORMATION ABOUT THE VIDEO (NOT CASE SENSITIVE)
-INFORMATION=('720p' 'hdtv' 'proper' 'repack' 'x264' 'xvid' 'webrip' 'bluray' 'ffmpeg')
+INFO=('720p' 'bluray' 'ffmpeg' 'hdtv' 'proper' 'repack' 'webrip' 'x264' 'xvid')
 
-#SYMBOLS USED FOR SPACE THAT SHOULD BE SPACES
-SPACES=('.' '-')
+function dd_help {
+    SCRIPTNAME=$(sed 's/.*\///g' <<< "$0")
+    echo -e "Name\n\t${SCRIPTNAME} - tool for stripping scene and quality tags from downloads"
+    echo -e "\nSYNOPSIS\n\t${SCRIPTNAME} [option] files"
+    echo -e "\nDESCRIPTION\n\tThis script can be used to remove tags containing scene and quality\n\tinformation from downloads, leaving only the showname and episode details"
+    echo -e "\nOPTIONS"
+    echo -e "\t${SCRIPTNAME} -t | --test\n\t\tShow the results of the change without changing any files"
+    echo -e "\n\t${SCRIPTNAME} -h | --help\n\t\tDisplay this help"
+    echo -e "\nEXAMPLES"
+    echo -e "\t${SCRIPTNAME} *\n\t\tRun on all the files in the current directory"
+    echo -e "\n\t${SCRIPTNAME} *.mp4\n\t\tRun on all files in the current directory ending in .mp4"
+    echo -e "\n\t${SCRIPTNAME} file1 file2\n\t\tRun on 'file1' and 'file2'"
+    echo -e "\n\t${SCRIPTNAME} -t file1 file2\n\t\tShow the changes that will be made if run on 'file1' and 'file2'"
+}
 
-for group in ${SCENE[@]}; do ${RENAME} -s/$group//g *; done
+function dd_newname {
+    if [ ! "$NEWNAME" == "$1" ]; then NEWNAME="$1"; fi
+}
 
-for info in ${INFORMATION[@]}; do ${RENAME} -s/$info//gi *; done
+if [ -z "$1" ]; then echo -e "Error: please supply input\n"; dd_help; exit 1; fi
+if [ "$1" == "-t" -o "$1" == "--test" ]; then if [ -z "$2" ]; then echo -e "Error: please supply input\n"; dd_help; exit 1; else TEST=true; fi; fi
+if [ "$1" == "-h" -o "$1" == "--help" ]; then dd_help; exit 0; fi
 
-for space in ${SPACES[@]}; do ${RENAME} -s/$space/' '/g *; done
-${RENAME} -s/'\ \ *'/' '/gr * #Replace instances of multiple spaces with a single space
-${RENAME} -s/' '/'.'/b * #Replace the final space with a '.' for the file extension
+for file in "$@"; do
+    #Only run if $file is writable and exists, and it isn't a block, character, directory or symbolic link
+    if [ -w "$file" -a ! -b "$file" -a ! -c "$file" -a ! -d "$file" -a ! -h "$file" ]; then
+        FILENAME="$(sed 's/\\//g' <<< $file)"
+        NEWNAME="$FILENAME"
+
+        for group in ${SCENE[@]}; do dd_newname "$(sed 's/'"$group"'//g' <<< $NEWNAME)"; done
+        for info in ${INFO[@]}; do dd_newname "$(sed 's/'"$info"'//gi' <<< $NEWNAME)"; done
+        dd_newname "$(sed 's/\[\]//g' <<< $NEWNAME)" #Remove leftover '[]'s from groups
+        dd_newname "$(sed 's/-/\ /g' <<< $NEWNAME)" #Replace '-'s with spaces
+        dd_newname "$(sed 's/\./\ /g' <<< $NEWNAME)" #Replace '.'s with spaces
+        dd_newname "$(sed 's/\ \ */\ /g' <<< $NEWNAME)" #Replace multiple spaces with a single space
+        dd_newname "$(sed 's/\ \([^\ ]*\)$/\.\1/g' <<< $NEWNAME)" #Replace the final space with a '.'
+
+        if [ $TEST ]; then
+            echo -n "TESTING: "
+            if [ ! "$FILENAME" == "$NEWNAME" ]; then echo "$FILENAME -> $NEWNAME"
+            else echo "No change to $FILENAME"; fi
+        else
+            if [ ! "$FILENAME" == "$NEWNAME" ]; then mv "$FILENAME" "$NEWNAME"; fi
+        fi
+    fi
+done

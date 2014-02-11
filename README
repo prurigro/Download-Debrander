@@ -1,5 +1,5 @@
 This is a simple script to remove branding from downloaded video releases.
 
-To use, you must first install http://rename.berlios.de/ and set the $RENAME variable to the name of the resulting executable. Running the script in a directory of video files will then debrand the files in that directory.
+Run the script on the files you wish to have debranded.
 
-If you come across branding that isn't removed, feel free to add to the $SCENE and $INFORMATION variables respectively. The script will be updated periodically as additional branding is found.
+Run with '-h' or '--help' for more detailed instructions.
