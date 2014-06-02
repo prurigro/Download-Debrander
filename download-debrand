@@ -20,7 +20,7 @@
 # --------------------------------------------------- #
 
 #THE NAMES OF VARIOUS RELEASE GROUPS (CASE SENSITIVE)
-SCENE=('2HD' '2hd' 'AFG' 'ANON' 'ASAP' 'asap' 'BAJSKORV' 'BiA' 'BRiTiSH' 'c4tv' 'CaRaT' 'COMPULSiON' 'DIMENSION' 'EVOLVE' 'EXCELLENCE' 'FEVER' 'FoV' 'FQM' 'fqm' 'HerMes' 'IMMERSE' 'KILLERS' 'killers' 'LOL' 'lol' 'Max' 'MiNT' 'NoTV' 'ORENJI' 'Orenji' 'P0W4' 'PDTV' 'pdtv' 'QCF' 'ReEnc' 'REMARKABLE' 'RiVER' 'RM' 'SaMettv' 'SFD' 'TLA' 'TVSR' 'ViP3R' 'VTV' 'WS' 'YIFY')
+SCENE=('2HD' '2hd' 'AFG' 'ANON' 'ASAP' 'asap' 'BAJSKORV' 'BATV' 'BiA' 'BRiTiSH' 'c4tv' 'CaRaT' 'COMPULSiON' 'DIMENSION' 'EVOLVE' 'EXCELLENCE' 'FEVER' 'FoV' 'FQM' 'fqm' 'HerMes' 'IMMERSE' 'KILLERS' 'killers' 'LOL' 'lol' 'Max' 'MiNT' 'NoTV' 'ORENJI' 'Orenji' 'P0W4' 'PDTV' 'pdtv' 'QCF' 'ReEnc' 'REMARKABLE' 'RiVER' 'RM' 'SaMettv' 'SFD' 'TLA' 'TVSR' 'ViP3R' 'VTV' 'WS' 'YIFY')
 
 #TAGS USED BY GROUPS TO GIVE INFORMATION ABOUT THE VIDEO (NOT CASE SENSITIVE)
 INFO=('720p' 'bluray' 'ffmpeg' 'hdtv' 'proper' 'repack' 'webrip' 'x264' 'xvid')
