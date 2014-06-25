@@ -6,7 +6,7 @@ It removes branding and information tags, as well as standardizing the format of
 
 ## SYNOPSIS ##
 
-download-debrand [option] files
+`download-debrand [option] files``
 
 ## OPTIONS ##
 
