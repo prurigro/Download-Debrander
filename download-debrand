@@ -15,10 +15,10 @@
 # ---------------------------------------------------------------------------- #
 
 #THE NAMES OF VARIOUS RELEASE GROUPS (CASE SENSITIVE)
-SCENE=('2HD' '2hd' 'AFG' 'ANON' 'ASAP' 'asap' 'BAJSKORV' 'BATV' 'BiA' 'BRiTiSH' 'BTN' 'c4tv' 'CaRaT' 'CLOWNSEC' 'COMPULSiON' 'DIMENSION' 'EVOLVE' 'EXCELLENCE' 'FEVER' 'FoV' 'FQM' 'fqm' 'HerMes' 'IMMERSE' 'KILLERS' 'killers' 'LOL' 'lol' 'Max' 'MiNT' 'NoTV' 'ORENJI' 'Orenji' 'P0W4' 'PDTV' 'pdtv' 'PhreakyFlix' 'QCF' 'rarbg' 'ReEnc' 'REMARKABLE' 'RiVER' 'RM' 'SaMettv' 'SFD' 'TLA' 'TVSR' 'ViP3R' 'VTV' 'WEB DL' 'WS' 'YIFY')
+SCENE=('2HD' '2hd' 'ACAB' 'AFG' 'ANON' 'ASAP' 'asap' 'BAJSKORV' 'BATV' 'BiA' 'BRiTiSH' 'BTN' 'c4tv' 'CaRaT' 'CLOWNSEC' 'COMPULSiON' 'DIMENSION' 'EVOLVE' 'EXCELLENCE' 'FEVER' 'FoV' 'FQM' 'fqm' 'HerMes' 'IMMERSE' 'KILLERS' 'killers' 'LOL' 'lol' 'Max' 'MiNT' 'NoTV' 'ORENJI' 'Orenji' 'P0W4' 'PDTV' 'pdtv' 'PhreakyFlix' 'QCF' 'rarbg' 'ReEnc' 'REMARKABLE' 'RiVER' 'RM' 'SaMettv' 'SFD' 'TLA' 'TVSR' 'ViP3R' 'VTV' 'WEB DL' 'WS' 'YIFY')
 
 #TAGS USED BY GROUPS TO GIVE INFORMATION ABOUT THE VIDEO (NOT CASE SENSITIVE)
-INFO=('720p' 'aac2.0' 'aac' 'bluray' 'BrRip' 'ffmpeg' 'h.264' 'hdtv' 'proper' 'repack' 'web-dl' 'webrip' 'x264' 'xvid')
+INFO=('720p' 'aac2.0' 'aac' 'AC3' 'bluray' 'BrRip' 'DVDRIP' 'ffmpeg' 'h.264' 'hdtv' 'proper' 'repack' 'web-dl' 'webrip' 'x264' 'xvid')
 
 function dd_help {
     SCRIPTNAME=$(sed 's/.*\///g' <<< "$0")
