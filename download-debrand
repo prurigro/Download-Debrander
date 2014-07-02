@@ -15,7 +15,7 @@
 # ---------------------------------------------------------------------------- #
 
 #THE NAMES OF VARIOUS RELEASE GROUPS (CASE SENSITIVE)
-SCENE=('2HD' '2hd' 'ACAB' 'AFG' 'ANON' 'ASAP' 'asap' 'BAJSKORV' 'BATV' 'BiA' 'BRiTiSH' 'BTN' 'c4tv' 'CaRaT' 'CLOWNSEC' 'COMPULSiON' 'DIMENSION' 'ETRG' 'EVOLVE' 'EXCELLENCE' 'FEVER' 'FoV' 'FQM' 'fqm' 'HerMes' 'IMMERSE' 'juggs' 'KILLERS' 'killers' 'LOL' 'lol' 'Max' 'MiNT' 'NoTV' 'ORENJI' 'Orenji' 'P0W4' 'PDTV' 'pdtv' 'PhreakyFlix' 'PublicHD' 'QCF' 'rarbg' 'ReEnc' 'REMARKABLE' 'RiVER' 'RM' 'SaMettv' 'SFD' 'TLA' 'TVSR' 'ViP3R' 'VTV' 'WEB DL' 'WS' 'YIFY')
+SCENE=('2HD' '2hd' 'ACAB' 'AFG' 'ANON' 'ASAP' 'asap' 'BAJSKORV' 'BATV' 'BiA' 'BRiTiSH' 'BTN' 'c4tv' 'CaRaT' 'CLOWNSEC' 'COMPULSiON' 'DIMENSION' 'ETRG' 'EVOLVE' 'EXCELLENCE' 'FEVER' 'FoV' 'FQM' 'fqm' 'HerMes' 'IMMERSE' 'juggs' 'JYK' 'KILLERS' 'killers' 'LOL' 'lol' 'Max' 'MiNT' 'NoTV' 'ORENJI' 'Orenji' 'P0W4' 'PDTV' 'pdtv' 'PhreakyFlix' 'PublicHD' 'QCF' 'rarbg' 'ReEnc' 'REMARKABLE' 'RiVER' 'RM' 'SaMettv' 'SFD' 'TLA' 'TVSR' 'ViP3R' 'VTV' 'WEB DL' 'WS' 'YIFY')
 
 #TAGS USED BY GROUPS TO GIVE INFORMATION ABOUT THE VIDEO (NOT CASE SENSITIVE)
 INFO=('720p' 'aac2.0' 'aac' 'AC3' 'bluray' 'BrRip' 'DTS' 'DVDRIP' 'ffmpeg' 'h.264' 'hdtv' 'proper' 'repack' 'web-dl' 'webrip' 'x264' 'xvid')
