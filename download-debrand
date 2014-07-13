@@ -53,7 +53,8 @@ for file in "$@"; do
         for info in ${INFO[@]}; do dd_newname "$(sed 's/'"$info"'//gi' <<< $NEWNAME)"; done
 
         dd_newname "$(sed 's/\[\ *\]//g' <<< $NEWNAME)" #Remove leftover '[]'s from groups
-        dd_newname "$(sed 's/()//g' <<< $NEWNAME)" #Remove leftover '()'s from groups
+        dd_newname "$(sed 's/(\ *)//g' <<< $NEWNAME)" #Remove leftover '()'s from groups
+        dd_newname "$(sed 's/{\ *}//g' <<< $NEWNAME)" #Remove leftover '{}'s from groups
         dd_newname "$(sed 's/-/\ /g' <<< $NEWNAME)" #Replace '-'s with spaces
         dd_newname "$(sed 's/\./\ /g' <<< $NEWNAME)" #Replace '.'s with spaces
         dd_newname "$(sed 's/\ \ */\ /g' <<< $NEWNAME)" #Replace multiple spaces with a single space
