@@ -20,10 +20,10 @@
 # ---------------------------------------------------------------------------- #
 
 #THE NAMES OF VARIOUS RELEASE GROUPS (CASE SENSITIVE)
-SCENE=('2HD' '2hd' 'ACAB' 'AFG' 'ANON' 'ASAP' 'asap' 'BAJSKORV' 'BATV' 'BiA' 'BRiTiSH' 'BTN' 'c4tv' 'CaRaT' 'CLOWNSEC' 'COMPULSiON' 'DIMENSION' 'ETRG' 'EVOLVE' 'EXCELLENCE' 'FEVER' 'FoV' 'FQM' 'fqm' 'GREY SHADOW' 'HerMes' 'IMMERSE' 'juggs' 'JYK' 'KILLERS' 'killers' 'LOL' 'lol' 'Max' 'MiNT' 'NoTV' 'ORENJI' 'Orenji' 'P0W4' 'PDTV' 'pdtv' 'PhreakyFlix' 'PublicHD' 'QCF' 'rarbg' 'ReEnc' 'REMARKABLE' 'RiVER' 'RM' 'SaMettv' 'SFD' 'TiTAN' 'TLA' 'TVSR' 'ViP3R' 'VTV' 'WEB DL' 'WS' 'YIFY')
+SCENE=('2HD' '2hd' 'ACAB' 'AFG' 'ANON' 'ASAP' 'asap' 'BAJSKORV' 'BATV' 'BiA' 'BRiTiSH' 'BTN' 'c4tv' 'CaRaT' 'CLOWNSEC' 'COMPULSiON' 'DIMENSION' 'ETRG' 'EVOLVE' 'EXCELLENCE' 'FEVER' 'FoV' 'FQM' 'fqm' 'FXG' 'GREY SHADOW' 'HerMes' 'IMMERSE' 'Judas' 'juggs' 'JYK' 'KILLERS' 'killers' 'LOL' 'lol' 'Max' 'MiNT' 'NoTV' 'ORENJI' 'Orenji' 'P0W4' 'PDTV' 'pdtv' 'PhreakyFlix' 'PublicHD' 'QCF' 'rarbg' 'ReEnc' 'REMARKABLE' 'RiVER' 'RM' 'SaMettv' 'SFD' 'TiTAN' 'TLA' 'TVSR' 'ViP3R' 'VTV' 'WEB DL' 'WS' 'YIFY')
 
 #TAGS USED BY GROUPS TO GIVE INFORMATION ABOUT THE DOWNLOAD (NOT CASE SENSITIVE)
-INFO=('720p' 'aac2.0' 'aac' 'AC3' 'bluray' 'BrRip' 'DTS' 'DVDRIP' 'ffmpeg' 'h.264' 'hdtv' 'proper' 'repack' 'TS' 'web-dl' 'webrip' 'x264' 'xvid')
+INFO=('1080p' '5.1' '720p' 'aac2.0' 'aac' 'AC3' 'bluray' 'BrRip' 'DTS' 'DVDRIP' 'Eng' 'ffmpeg' 'h.264' 'hdtv' 'proper' 'repack' 'TS' 'web-dl' 'webrip' 'x264' 'xvid')
 
 function dd_help {
     SCRIPTNAME=$(sed 's/.*\///g' <<< "$0")
@@ -32,6 +32,7 @@ function dd_help {
     echo -e "SYNOPSIS\n  ${SCRIPTNAME} [option] file(s)\n"
     echo -e "OPTIONS"
     echo -e "  ${SCRIPTNAME} -t file(s) | --test file(s)\n    View the changes without making them\n"
+    echo -e "  ${SCRIPTNAME} -y file(s) | --strip-year file(s)\n    Strip the year from the end of the filename\n"
     echo -e "  ${SCRIPTNAME} -h | --help\n    Display this help\n"
     echo -e "EXAMPLES"
     echo -e "  ${SCRIPTNAME} *\n    Run on all files in the directory\n"
@@ -44,51 +45,86 @@ function dd_newname {
     if [ ! "$NEWNAME" = "$1" ]; then NEWNAME="$1"; fi
 }
 
-[[ -z "$1" ]] && echo -e "Error: please provide at least one file as an argument\n" && dd_help && exit 1
-if [ "$1" = "-h" -o "$1" = "--help" ]; then dd_help; exit 0; fi
-if [ "$1" = "-t" -o "$1" = "--test" ]; then [[ -z "$2" ]] && echo "Error: please provide at least one file as an argument" && exit 1 || TEST=1 ; fi
+function dd_debrand {
+    FILENAME="$(sed 's/\\//g' <<< $1)"
+    NEWNAME="$FILENAME"
 
-for file in "$@"; do
-    #Only run if $file is writable and exists, and it isn't a block, character, directory or symbolic link
-    if [ -w "$file" -a ! -b "$file" -a ! -c "$file" -a ! -d "$file" -a ! -h "$file" ]; then
-        FILENAME="$(sed 's/\\//g' <<< $file)"
-        NEWNAME="$FILENAME"
+    for group in ${SCENE[@]}; do
+        dd_newname "$(sed -re 's/([^a-zA-Z])'"$group"'([^a-zA-Z])/\1\2/g' <<< $NEWNAME)"
+    done
+    for info in ${INFO[@]}; do
+        dd_newname "$(sed -re 's/([^a-zA-Z])'"$info"'([^a-zA-Z])/\1\2/gi' <<< $NEWNAME)"
+    done
 
-        for group in ${SCENE[@]}; do
-            dd_newname "$(sed -re 's/([^a-zA-Z])'"$group"'([^a-zA-Z])/\1\2/g' <<< $NEWNAME)"
-        done
-        for info in ${INFO[@]}; do
-            dd_newname "$(sed -re 's/([^a-zA-Z])'"$info"'([^a-zA-Z])/\1\2/gi' <<< $NEWNAME)"
-        done
+    dd_newname "$(sed 's/\[\ *\]//g' <<< $NEWNAME)" #Remove leftover '[]'s from groups
+    dd_newname "$(sed 's/(\ *)//g' <<< $NEWNAME)" #Remove leftover '()'s from groups
+    dd_newname "$(sed 's/{\ *}//g' <<< $NEWNAME)" #Remove leftover '{}'s from groups
+    dd_newname "$(sed 's/-/\ /g' <<< $NEWNAME)" #Replace '-'s with spaces
+    dd_newname "$(sed 's/\./\ /g' <<< $NEWNAME)" #Replace '.'s with spaces
+    dd_newname "$(sed 's/\ \ */\ /g' <<< $NEWNAME)" #Replace multiple spaces with a single space
+    dd_newname "$(sed 's/\ \([^\ ]*\)$/\.\1/g' <<< $NEWNAME)" #Replace the final space with a '.'
 
-        dd_newname "$(sed 's/\[\ *\]//g' <<< $NEWNAME)" #Remove leftover '[]'s from groups
-        dd_newname "$(sed 's/(\ *)//g' <<< $NEWNAME)" #Remove leftover '()'s from groups
-        dd_newname "$(sed 's/{\ *}//g' <<< $NEWNAME)" #Remove leftover '{}'s from groups
-        dd_newname "$(sed 's/-/\ /g' <<< $NEWNAME)" #Replace '-'s with spaces
-        dd_newname "$(sed 's/\./\ /g' <<< $NEWNAME)" #Replace '.'s with spaces
-        dd_newname "$(sed 's/\ \ */\ /g' <<< $NEWNAME)" #Replace multiple spaces with a single space
-        dd_newname "$(sed 's/\ \([^\ ]*\)$/\.\1/g' <<< $NEWNAME)" #Replace the final space with a '.'
+    dd_newname "$(sed -re 's/\ ([0-9])x([0-9][0-9][\ \.])/\ S0\1E\2/gi' <<< $NEWNAME)" #Replace #x## with S0#E##
+    dd_newname "$(sed -re 's/S([0-9])E/S0\1E/gi' <<< $NEWNAME)" #Replace S#E with S0#E
+    dd_newname "$(sed -re 's/S([0-9][0-9])E([0-9][^[0-9])/S\1E0\2/gi' <<< $NEWNAME)" #Replace S##E# with S0#E0#
+    dd_newname "$(sed -re 's/s([0-9]*)e([0-9]*)/S\1E\2/gi' <<< $NEWNAME)" #Replace s##e## with S##E##
 
-        dd_newname "$(sed -re 's/\ ([0-9])x([0-9][0-9][\ \.])/\ S0\1E\2/gi' <<< $NEWNAME)" #Replace #x## with S0#E##
-        dd_newname "$(sed -re 's/S([0-9])E/S0\1E/gi' <<< $NEWNAME)" #Replace S#E with S0#E
-        dd_newname "$(sed -re 's/S([0-9][0-9])E([0-9][^[0-9])/S\1E0\2/gi' <<< $NEWNAME)" #Replace S##E# with S0#E0#
-        dd_newname "$(sed -re 's/s([0-9]*)e([0-9]*)/S\1E\2/gi' <<< $NEWNAME)" #Replace s##e## with S##E##
+    # Strip the year if the flag is set
+    [[ "$STRIP_YEAR" = 1 ]] \
+        && dd_newname "$(sed 's/ [0-9][0-9][0-9][0-9]\./\./gi' <<< $NEWNAME)"
 
-        if [[ "$TEST" = 1 ]]; then
-            echo -n "TESTING: "
-            if [[ -n "$NEWNAME" ]]; then
-                [[ ! "$FILENAME" = "$NEWNAME" ]] \
-                    && echo "${FILENAME} -> ${NEWNAME}" || echo "No change to ${FILENAME}"
-            else
-                echo "Error: couldn't debrand ${FILENAME}"
-            fi
+    if [[ "$TEST" = 1 ]]; then
+        echo -n "TESTING: "
+        if [[ -n "$NEWNAME" ]]; then
+            [[ ! "$FILENAME" = "$NEWNAME" ]] \
+                && echo "${FILENAME} -> ${NEWNAME}" || echo "No change to ${FILENAME}"
         else
-            if [[ -n "$NEWNAME" ]]; then
-                [[ ! "$FILENAME" = "$NEWNAME" ]] \
-                    && mv "$FILENAME" "$NEWNAME"
-            else
-                echo "Error: couldn't debrand ${FILENAME}"
-            fi
+            echo "Error: couldn't debrand ${FILENAME}"
+        fi
+    else
+        if [[ -n "$NEWNAME" ]]; then
+            [[ ! "$FILENAME" = "$NEWNAME" ]] \
+                && mv "$FILENAME" "$NEWNAME"
+        else
+            echo "Error: couldn't debrand ${FILENAME}"
         fi
     fi
+}
+
+for param in "$@"; do
+    case "$param" in
+        -h|--help)
+            # Run help and exit with a success
+            [[ ! "$PARAM_CHECK" = 1 ]] && dd_help && exit 0
+            ;;
+        -t|--test)
+            # TEST flag says to output changes (not make them)
+            [[ -z "$TEST" ]] && [[ ! "$PARAM_CHECK" = 1 ]] && TEST=1
+            ;;
+        -y|--strip-year)
+            [[ -z "$STRIP_YEAR" ]] && [[ ! "$PARAM_CHECK" = 1 ]] && STRIP_YEAR=1
+            ;;
+        *)
+            # PARAM_CHECK says non-flag args were given
+            PARAM_CHECK=1
+            if [[ -f "$param" ]]; then
+                if [[ ! -w "$param" ]]; then
+                    echo "Error: ${param} is not writable"
+                    exit 1
+                fi
+                dd_debrand "$param"
+            else
+                # Skip directories and complain about anything else
+                [[ -d "$param" ]] || echo "Error: no file exists with the name ${param}"
+            fi
+            ;;
+    esac
 done
+
+# Exit with an error if no inputs is given
+[[ ! "$PARAM_CHECK" = 1 ]] \
+    && echo -e "Error: please provide at least one file as an argument\n" \
+    && dd_help \
+    && exit 1
+
+exit 0

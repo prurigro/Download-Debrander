@@ -42,12 +42,6 @@ function tc_addtimecode() {
     fi
 }
 
-# Exit with an error if no inputs is given
-[[ -z "$1" ]] \
-    && echo -e "Error: please provide at least one media file as an argument\n" \
-    && tc_help \
-    && exit 1
-
 for param in "$@"; do
     case "$param" in
         -t|--test)
@@ -65,13 +59,24 @@ for param in "$@"; do
             exit 0
             ;;
         *)
+            # PARAM_CHECK says non-flag args were given
+            PARAM_CHECK=1
             if [[ -f "$param" ]]; then
-                # Attempt to add the timecode
+                if [[ ! -w "$param" ]]; then
+                    echo "Error: ${param} is not writable"
+                    exit 1
+                fi
                 tc_addtimecode "$param"
             else
                 # Skip directories and complain about anything else
-                [[ -d "$param" ]] || echo "Error: no file exists with the name: ${param}"
+                [[ -d "$param" ]] || echo "Error: no file exists with the name ${param}"
             fi
             ;;
     esac
 done
+
+# Exit with an error if no inputs is given
+[[ ! "$PARAM_CHECK" = 1 ]] \
+    && echo -e "Error: please provide at least one media file as an argument\n" \
+    && tc_help \
+    && exit 1

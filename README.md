@@ -17,6 +17,7 @@ Branding and information tags are stripped, and an attempt is made to standardiz
 ### OPTIONS ###
 
 * `debrand-download -t file(s)` | `--test file(s)`: View the changes without making them
+* `debrand-download -y file(s)` | `--strip-year file(s)`: Strip the year from the end of the filename
 * `debrand-download -h` | `--help`: Display this help
 
 ### EXAMPLES ###
