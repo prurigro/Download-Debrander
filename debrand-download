@@ -20,7 +20,7 @@
 # ---------------------------------------------------------------------------- #
 
 #THE NAMES OF VARIOUS RELEASE GROUPS (CASE SENSITIVE)
-SCENE=('2HD' '2hd' 'ACAB' 'AFG' 'ANON' 'ASAP' 'asap' 'BAJSKORV' 'BATV' 'BiA' 'BOKUTOX' 'BRiTiSH' 'BTN' 'c4tv' 'CaRaT' 'CLOWNSEC' 'COMPULSiON' 'DIMENSION' 'ETRG' 'EVOLVE' 'EXCELLENCE' 'Fastbet99' 'FEVER' 'FoV' 'FQM' 'fqm' 'FXG' 'greenbud1969' 'GREY SHADOW' 'HerMes' 'IMMERSE' 'Judas' 'juggs' 'JYK' 'KILLERS' 'killers' 'LOL' 'lol' 'Max' 'MiNT' 'NoTV' 'ORENJI' 'Orenji' 'P0W4' 'PDTV' 'pdtv' 'PhreakyFlix' 'PublicHD' 'QCF' 'rarbg' 'ReEnc' 'REMARKABLE' 'RiVER' 'RM' 'SaMettv' 'SFD' 'TiTAN' 'TLA' 'TMRG' 'TVSR' 'ViP3R' 'VTV' 'WEB DL' 'WS' 'YIFY')
+SCENE=('2HD' '2hd' 'ACAB' 'AFG' 'ANON' 'ASAP' 'asap' 'BAJSKORV' 'BATV' 'BiA' 'BOKUTOX' 'BRiTiSH' 'BTN' 'c4tv' 'CaRaT' 'CLOWNSEC' 'COMPULSiON' 'DIMENSION' 'ETRG' 'EVOLVE' 'EXCELLENCE' 'Fastbet99' 'FEVER' 'FoV' 'FQM' 'fqm' 'FXG' 'greenbud1969' 'GREY SHADOW' 'GSFTX' 'HerMes' 'IMMERSE' 'Judas' 'juggs' 'JYK' 'KILLERS' 'killers' 'LOL' 'lol' 'Max' 'MiNT' 'NoTV' 'ORENJI' 'Orenji' 'P0W4' 'PDTV' 'pdtv' 'PhreakyFlix' 'PublicHD' 'QCF' 'rarbg' 'ReEnc' 'REMARKABLE' 'RiVER' 'RM' 'SaMettv' 'SFD' 'TiTAN' 'TLA' 'TMRG' 'TVSR' 'ViP3R' 'VTV' 'WEB DL' 'WS' 'YIFY')
 
 #TAGS USED BY GROUPS TO GIVE INFORMATION ABOUT THE DOWNLOAD (NOT CASE SENSITIVE)
 INFO=('1080p' '5.1' '720p' 'aac2.0' 'aac' 'ac3' 'blu ray' 'bluray' 'brrip' 'dts' 'dvdrip' 'eng' 'esubs' 'ffmpeg' 'h.264' 'h264' 'hdtv' 'proper' 'repack' 'ts' 'unrated' 'web-dl' 'webrip' 'x264' 'xvid')
