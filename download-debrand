@@ -49,8 +49,12 @@ for file in "$@"; do
         FILENAME="$(sed 's/\\//g' <<< $file)"
         NEWNAME="$FILENAME"
 
-        for group in ${SCENE[@]}; do dd_newname "$(sed 's/'"$group"'//g' <<< $NEWNAME)"; done
-        for info in ${INFO[@]}; do dd_newname "$(sed 's/'"$info"'//gi' <<< $NEWNAME)"; done
+        for group in ${SCENE[@]}; do
+            dd_newname "$(sed -re 's/([^a-zA-Z])'"$group"'([^a-zA-Z])/\1\2/g' <<< $NEWNAME)"
+        done
+        for info in ${INFO[@]}; do
+            dd_newname "$(sed -re 's/([^a-zA-Z])'"$info"'([^a-zA-Z])/\1\2/gi' <<< $NEWNAME)"
+        done
 
         dd_newname "$(sed 's/\[\ *\]//g' <<< $NEWNAME)" #Remove leftover '[]'s from groups
         dd_newname "$(sed 's/(\ *)//g' <<< $NEWNAME)" #Remove leftover '()'s from groups
