@@ -1,11 +1,16 @@
 #! /usr/bin/env bash
 
 # ---------------------------------------------------------------------------- #
-#                               download-debrand                               #
+#                               debrand-download                               #
 # ---------------------------------------------------------------------------- #
-# A script for sanitizing the filenames of downloaded files that were named by #
-# release groups. It removes branding and information tags, as well as         #
-# standardizing the format of the season and episode identifier.               #
+# Remove tags and sanitize the filenames of release group downloads.           #
+#                                                                              #
+# Branding and information tags are stripped, and an attempt is made to        #
+# standardize the format of the season and episode identifier (ie: `S01E08`).  #
+#                                                                              #
+# eg:                                                                          #
+#   The Last Man on Earth 720p [2HD] [AFG].mkv -> The Last Man on Earth.mkv    #
+#   Beverly Hillbillies s1e4 [LOL] (AC3).mp4 -> Beverly Hillbillies S01E04.mp4 #
 #                                                                              #
 # By: Kevin MacMartin                                                          #
 # Contact: prurigro at gmail dot com                                           #
@@ -17,31 +22,31 @@
 #THE NAMES OF VARIOUS RELEASE GROUPS (CASE SENSITIVE)
 SCENE=('2HD' '2hd' 'ACAB' 'AFG' 'ANON' 'ASAP' 'asap' 'BAJSKORV' 'BATV' 'BiA' 'BRiTiSH' 'BTN' 'c4tv' 'CaRaT' 'CLOWNSEC' 'COMPULSiON' 'DIMENSION' 'ETRG' 'EVOLVE' 'EXCELLENCE' 'FEVER' 'FoV' 'FQM' 'fqm' 'GREY SHADOW' 'HerMes' 'IMMERSE' 'juggs' 'JYK' 'KILLERS' 'killers' 'LOL' 'lol' 'Max' 'MiNT' 'NoTV' 'ORENJI' 'Orenji' 'P0W4' 'PDTV' 'pdtv' 'PhreakyFlix' 'PublicHD' 'QCF' 'rarbg' 'ReEnc' 'REMARKABLE' 'RiVER' 'RM' 'SaMettv' 'SFD' 'TiTAN' 'TLA' 'TVSR' 'ViP3R' 'VTV' 'WEB DL' 'WS' 'YIFY')
 
-#TAGS USED BY GROUPS TO GIVE INFORMATION ABOUT THE VIDEO (NOT CASE SENSITIVE)
+#TAGS USED BY GROUPS TO GIVE INFORMATION ABOUT THE DOWNLOAD (NOT CASE SENSITIVE)
 INFO=('720p' 'aac2.0' 'aac' 'AC3' 'bluray' 'BrRip' 'DTS' 'DVDRIP' 'ffmpeg' 'h.264' 'hdtv' 'proper' 'repack' 'TS' 'web-dl' 'webrip' 'x264' 'xvid')
 
 function dd_help {
     SCRIPTNAME=$(sed 's/.*\///g' <<< "$0")
-    echo -e "Name\n\t${SCRIPTNAME} - tool for stripping scene and quality tags from downloads."
-    echo -e "\nDESCRIPTION\n\tThis script can be used to remove tags containing scene and quality\n\tinformation from downloads, leaving only the show name and standardized\n\tepisode information."
-    echo -e "\nSYNOPSIS\n\t${SCRIPTNAME} [option] files"
-    echo -e "\nOPTIONS"
-    echo -e "\t${SCRIPTNAME} -t | --test\n\t\tShow the results of the change without changing any files"
-    echo -e "\n\t${SCRIPTNAME} -h | --help\n\t\tDisplay this help"
-    echo -e "\nEXAMPLES"
-    echo -e "\t${SCRIPTNAME} *\n\t\tRun on all the files in the current directory"
-    echo -e "\n\t${SCRIPTNAME} *.mp4\n\t\tRun on all files in the current directory ending in .mp4"
-    echo -e "\n\t${SCRIPTNAME} file1 file2\n\t\tRun on 'file1' and 'file2'"
-    echo -e "\n\t${SCRIPTNAME} -t file1 file2\n\t\tShow the changes that will be made if run on 'file1' and 'file2'"
+    echo -e "NAME: ${SCRIPTNAME}\n"
+    echo -e "DESCRIPTION\n  Remove tags and sanitize the filenames of release group downloads\n"
+    echo -e "SYNOPSIS\n  ${SCRIPTNAME} [option] file(s)\n"
+    echo -e "OPTIONS"
+    echo -e "  ${SCRIPTNAME} -t file(s) | --test file(s)\n    View the changes without making them\n"
+    echo -e "  ${SCRIPTNAME} -h | --help\n    Display this help\n"
+    echo -e "EXAMPLES"
+    echo -e "  ${SCRIPTNAME} *\n    Run on all files in the directory\n"
+    echo -e "  ${SCRIPTNAME} *.mp4\n    Run on all files ending in .mp4\n"
+    echo -e "  ${SCRIPTNAME} file1 file2\n    Run on 'file1' and 'file2'\n"
+    echo -e "  ${SCRIPTNAME} -t file1 file2\n    See how file1 and file2 would change"
 }
 
 function dd_newname {
     if [ ! "$NEWNAME" = "$1" ]; then NEWNAME="$1"; fi
 }
 
-[[ -z $1 ]] && echo -e "Error: please supply input" && exit 1
+[[ -z "$1" ]] && echo -e "Error: please provide at least one file as an argument\n" && dd_help && exit 1
 if [ "$1" = "-h" -o "$1" = "--help" ]; then dd_help; exit 0; fi
-if [ "$1" = "-t" -o "$1" = "--test" ]; then [[ -z $2 ]] && echo -e "Error: please supply input" && exit 1 || TEST=true; fi
+if [ "$1" = "-t" -o "$1" = "--test" ]; then [[ -z "$2" ]] && echo "Error: please provide at least one file as an argument" && exit 1 || TEST=1 ; fi
 
 for file in "$@"; do
     #Only run if $file is writable and exists, and it isn't a block, character, directory or symbolic link
@@ -69,13 +74,21 @@ for file in "$@"; do
         dd_newname "$(sed -re 's/S([0-9][0-9])E([0-9][^[0-9])/S\1E0\2/gi' <<< $NEWNAME)" #Replace S##E# with S0#E0#
         dd_newname "$(sed -re 's/s([0-9]*)e([0-9]*)/S\1E\2/gi' <<< $NEWNAME)" #Replace s##e## with S##E##
 
-        if [[ $TEST ]]; then
+        if [[ "$TEST" = 1 ]]; then
             echo -n "TESTING: "
-            if [[ -n $NEWNAME ]]; then [[ ! "$FILENAME" = "$NEWNAME" ]] && echo "${FILENAME} -> ${NEWNAME}" || echo "No change to ${FILENAME}"
-            else echo "Error while debranding ${FILENAME}"; fi
+            if [[ -n "$NEWNAME" ]]; then
+                [[ ! "$FILENAME" = "$NEWNAME" ]] \
+                    && echo "${FILENAME} -> ${NEWNAME}" || echo "No change to ${FILENAME}"
+            else
+                echo "Error: couldn't debrand ${FILENAME}"
+            fi
         else
-            if [[ -n $NEWNAME ]]; then [[ ! "$FILENAME" = "$NEWNAME" ]] && mv "$FILENAME" "$NEWNAME"
-            else echo "Error while debranding ${FILENAME}"; fi
+            if [[ -n "$NEWNAME" ]]; then
+                [[ ! "$FILENAME" = "$NEWNAME" ]] \
+                    && mv "$FILENAME" "$NEWNAME"
+            else
+                echo "Error: couldn't debrand ${FILENAME}"
+            fi
         fi
     fi
 done

@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+
+# -------------------------------------------------------------------------- #
+#                               timecode-download                            #
+# -------------------------------------------------------------------------- #
+# Add the playback time of a media file to the end of its filename.          #
+#                                                                            #
+# eg: The Last Man on Earth.mkv -> The Last Man on Earth [1h26m].mkv         #
+#                                                                            #
+# By: Kevin MacMartin                                                        #
+# Contact: prurigro at gmail dot com                                         #
+#                                                                            #
+# Distributed under the GPLv3                                                #
+# Copies can be obtained from gnu.org @ http://www.gnu.org/copyleft/gpl.html #
+# ---------------------------------------------------------------------------#
+
+function tc_help {
+    SCRIPTNAME=$(sed 's/.*\///g' <<< "$0")
+    echo -e "NAME: ${SCRIPTNAME}\n"
+    echo -e "DESCRIPTION\n  Add the playback time of a media file to the end of its filename\n"
+    echo -e "SYNOPSIS\n  ${SCRIPTNAME} [option] file(s)\n"
+    echo -e "OPTIONS"
+    echo -e "  ${SCRIPTNAME} -t file(s) | --test file(s)\n    View the changes without making them\n"
+    echo -e "  ${SCRIPTNAME} -h | --help\n    Display this help\n"
+    echo -e "EXAMPLES"
+    echo -e "  ${SCRIPTNAME} *\n    Run on all files in the directory\n"
+    echo -e "  ${SCRIPTNAME} *.mp4\n    Run on all files ending in .mp4\n"
+    echo -e "  ${SCRIPTNAME} file.avi file.mkv\n    Run on 'file.avi' and 'file.mkv'\n"
+    echo -e "  ${SCRIPTNAME} -t file.avi file.mkv\n    See how file.avi and file.mkv would change"
+}
+
+function tc_addtimecode() {
+    TIME=$(ffmpeg -i "$1" 2>&1 | grep Duration | sed 's|^[^0-9]*[0:]*||;s|\..*$||;s|:[^:]*$||;s|:|h|;s|$|m|')
+
+    if [ "$TIME" = "m" ] || [ -z "$TIME" ]; then
+        echo "Error: cannot extract play time info from ${1}"
+    else
+        NEWFILE=$(sed -re "s|(\.[^\.]*)$| \[${TIME}\]\1|" <<< "$1")
+        [[ "$TEST" = 1 ]] \
+            && echo "${1} -> ${NEWFILE}" \
+            || mv "$1" "$NEWFILE"
+    fi
+}
+
+# Exit with an error if no inputs is given
+[[ -z "$1" ]] \
+    && echo -e "Error: please provide at least one media file as an argument\n" \
+    && tc_help \
+    && exit 1
+
+for param in "$@"; do
+    case "$param" in
+        -t|--test)
+            # Exit with an error if no additional input is given
+            [[ -z "$2" ]] \
+                && echo -e "Error: please provide at least one media file as an argument\n" \
+                && tc_help \
+                && exit 1
+            # Enable the TEST flag
+            TEST=1
+            ;;
+        -h|--help)
+            # Run help and exit with a success
+            tc_help
+            exit 0
+            ;;
+        *)
+            if [[ -f "$param" ]]; then
+                # Attempt to add the timecode
+                tc_addtimecode "$param"
+            else
+                # Skip directories and complain about anything else
+                [[ -d "$param" ]] || echo "Error: no file exists with the name: ${param}"
+            fi
+            ;;
+    esac
+done
