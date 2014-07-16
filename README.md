@@ -6,7 +6,7 @@ Remove tags and sanitize the filenames of release group downloads.
 
 Branding and information tags are stripped, and an attempt is made to standardize the format of the season and episode identifier (ie: `S01E08`).
 
-**eg**:
+**For example**:
 * `The Last Man on Earth 720p [2HD] [AFG].mkv` -\> `The Last Man on Earth.mkv`
 * `The Beverly Hillbillies s1e4 [LOL] (AC3).mp4` -\> `The Beverly Hillbillies S01E04.mp4`
 
@@ -30,7 +30,7 @@ Branding and information tags are stripped, and an attempt is made to standardiz
 
 Add the playback time of a media file to the end of its filename.
 
-**eg**: `The Last Man on Earth.mkv` -> `The Last Man on Earth [1h26m].mkv`
+**For example**: `The Last Man on Earth.mkv` -> `The Last Man on Earth [1h26m].mkv`
 
 ### SYNOPSIS ###
 
