@@ -20,10 +20,10 @@
 # ---------------------------------------------------------------------------- #
 
 #THE NAMES OF VARIOUS RELEASE GROUPS (CASE SENSITIVE)
-SCENE=('2HD' '2hd' 'ACAB' 'AFG' 'ANON' 'ASAP' 'asap' 'BAJSKORV' 'BATV' 'BiA' 'BRiTiSH' 'BTN' 'c4tv' 'CaRaT' 'CLOWNSEC' 'COMPULSiON' 'DIMENSION' 'ETRG' 'EVOLVE' 'EXCELLENCE' 'FEVER' 'FoV' 'FQM' 'fqm' 'FXG' 'GREY SHADOW' 'HerMes' 'IMMERSE' 'Judas' 'juggs' 'JYK' 'KILLERS' 'killers' 'LOL' 'lol' 'Max' 'MiNT' 'NoTV' 'ORENJI' 'Orenji' 'P0W4' 'PDTV' 'pdtv' 'PhreakyFlix' 'PublicHD' 'QCF' 'rarbg' 'ReEnc' 'REMARKABLE' 'RiVER' 'RM' 'SaMettv' 'SFD' 'TiTAN' 'TLA' 'TVSR' 'ViP3R' 'VTV' 'WEB DL' 'WS' 'YIFY')
+SCENE=('2HD' '2hd' 'ACAB' 'AFG' 'ANON' 'ASAP' 'asap' 'BAJSKORV' 'BATV' 'BiA' 'BRiTiSH' 'BTN' 'c4tv' 'CaRaT' 'CLOWNSEC' 'COMPULSiON' 'DIMENSION' 'ETRG' 'EVOLVE' 'EXCELLENCE' 'Fastbet99' 'FEVER' 'FoV' 'FQM' 'fqm' 'FXG' 'greenbud1969' 'GREY SHADOW' 'HerMes' 'IMMERSE' 'Judas' 'juggs' 'JYK' 'KILLERS' 'killers' 'LOL' 'lol' 'Max' 'MiNT' 'NoTV' 'ORENJI' 'Orenji' 'P0W4' 'PDTV' 'pdtv' 'PhreakyFlix' 'PublicHD' 'QCF' 'rarbg' 'ReEnc' 'REMARKABLE' 'RiVER' 'RM' 'SaMettv' 'SFD' 'TiTAN' 'TLA' 'TMRG' 'TVSR' 'ViP3R' 'VTV' 'WEB DL' 'WS' 'YIFY')
 
 #TAGS USED BY GROUPS TO GIVE INFORMATION ABOUT THE DOWNLOAD (NOT CASE SENSITIVE)
-INFO=('1080p' '5.1' '720p' 'aac2.0' 'aac' 'AC3' 'bluray' 'BrRip' 'DTS' 'DVDRIP' 'Eng' 'ffmpeg' 'h.264' 'hdtv' 'proper' 'repack' 'TS' 'web-dl' 'webrip' 'x264' 'xvid')
+INFO=('1080p' '5.1' '720p' 'aac2.0' 'aac' 'ac3' 'blu ray' 'bluray' 'brrip' 'dts' 'dvdrip' 'eng' 'esubs' 'ffmpeg' 'h.264' 'h264' 'hdtv' 'proper' 'repack' 'ts' 'unrated' 'web-dl' 'webrip' 'x264' 'xvid')
 
 function dd_help {
     SCRIPTNAME=$(sed 's/.*\///g' <<< "$0")
@@ -51,10 +51,10 @@ function dd_debrand {
     NEWNAME="$FILENAME"
 
     for group in ${SCENE[@]}; do
-        dd_newname "$(sed -re 's/([^a-zA-Z])'"$group"'([^a-zA-Z])/\1\2/g' <<< $NEWNAME)"
+        dd_newname "$(sed -re 's|([^a-zA-Z])'${group}'([^a-zA-Z])|\1\2|g' <<< $NEWNAME)"
     done
     for info in ${INFO[@]}; do
-        dd_newname "$(sed -re 's/([^a-zA-Z])'"$info"'([^a-zA-Z])/\1\2/gi' <<< $NEWNAME)"
+        dd_newname "$(sed -re 's|([^a-zA-Z])'${info}'([^a-zA-Z])|\1\2|gi' <<< $NEWNAME)"
     done
 
     dd_newname "$(sed 's/\[\ *\]//g' <<< $NEWNAME)" #Remove leftover '[]'s from groups
@@ -75,7 +75,7 @@ function dd_debrand {
 
     #Strip the year if the flag is set
     [[ "$STRIP_YEAR" = 1 ]] \
-        && dd_newname "$(sed 's/\ (*[0-9][0-9][0-9][0-9])*\./\./gi' <<< $NEWNAME)"
+        && dd_newname "$(sed 's/\ (*[0-9][0-9][0-9][0-9])*\./\./g' <<< $NEWNAME)"
 
     if [[ "$TEST" = 1 ]]; then
         echo -n "TESTING: "
