@@ -29,10 +29,11 @@ function dd_help {
     SCRIPTNAME=$(sed 's/.*\///g' <<< "$0")
     echo -e "NAME: ${SCRIPTNAME}\n"
     echo -e "DESCRIPTION\n  Remove tags and sanitize the filenames of release group downloads\n"
-    echo -e "SYNOPSIS\n  ${SCRIPTNAME} [option] file(s)\n"
+    echo -e "SYNOPSIS\n  ${SCRIPTNAME} [option(s)] file(s)\n"
     echo -e "OPTIONS"
     echo -e "  ${SCRIPTNAME} -t file(s) | --test file(s)\n    View the changes without making them\n"
     echo -e "  ${SCRIPTNAME} -y file(s) | --strip-year file(s)\n    Strip the year from the end of the filename\n"
+    echo -e "  ${SCRIPTNAME} -e file(s) | --episode-fix file(s)\n    Fix episode tag information (ie: S01E01)\n"
     echo -e "  ${SCRIPTNAME} -h | --help\n    Display this help\n"
     echo -e "EXAMPLES"
     echo -e "  ${SCRIPTNAME} *\n    Run on all files in the directory\n"
@@ -64,14 +65,17 @@ function dd_debrand {
     dd_newname "$(sed 's/\ \ */\ /g' <<< $NEWNAME)" #Replace multiple spaces with a single space
     dd_newname "$(sed 's/\ \([^\ ]*\)$/\.\1/g' <<< $NEWNAME)" #Replace the final space with a '.'
 
-    dd_newname "$(sed -re 's/\ ([0-9])x([0-9][0-9][\ \.])/\ S0\1E\2/gi' <<< $NEWNAME)" #Replace #x## with S0#E##
-    dd_newname "$(sed -re 's/S([0-9])E/S0\1E/gi' <<< $NEWNAME)" #Replace S#E with S0#E
-    dd_newname "$(sed -re 's/S([0-9][0-9])E([0-9][^[0-9])/S\1E0\2/gi' <<< $NEWNAME)" #Replace S##E# with S0#E0#
-    dd_newname "$(sed -re 's/s([0-9]*)e([0-9]*)/S\1E\2/gi' <<< $NEWNAME)" #Replace s##e## with S##E##
+    #Fix the episode tag if the flag is set
+    if [[ "$EPISODE_FIX" = 1 ]]; then
+        dd_newname "$(sed -re 's/\ ([0-9])x([0-9][0-9][\ \.])/\ S0\1E\2/gi' <<< $NEWNAME)" #Replace #x## with S0#E##
+        dd_newname "$(sed -re 's/\ S([0-9])E/\ S0\1E/gi' <<< $NEWNAME)" #Replace S#E with S0#E
+        dd_newname "$(sed -re 's/\ S([0-9][0-9])E([0-9][^[0-9])/\ S\1E0\2/gi' <<< $NEWNAME)" #Replace S##E# with S0#E0#
+        dd_newname "$(sed -re 's/\ s([0-9][0-9]*)e([0-9][0-9]*)/\ S\1E\2/gi' <<< $NEWNAME)" #Replace s##e## with S##E##
+    fi
 
-    # Strip the year if the flag is set
+    #Strip the year if the flag is set
     [[ "$STRIP_YEAR" = 1 ]] \
-        && dd_newname "$(sed 's/ [0-9][0-9][0-9][0-9]\./\./gi' <<< $NEWNAME)"
+        && dd_newname "$(sed 's/\ (*[0-9][0-9][0-9][0-9])*\./\./gi' <<< $NEWNAME)"
 
     if [[ "$TEST" = 1 ]]; then
         echo -n "TESTING: "
@@ -103,6 +107,9 @@ for param in "$@"; do
             ;;
         -y|--strip-year)
             [[ -z "$STRIP_YEAR" ]] && [[ ! "$PARAM_CHECK" = 1 ]] && STRIP_YEAR=1
+            ;;
+        -e|--episode-fix)
+            [[ -z "$EPISODE_FIX" ]] && [[ ! "$PARAM_CHECK" = 1 ]] && EPISODE_FIX=1
             ;;
         *)
             # PARAM_CHECK says non-flag args were given

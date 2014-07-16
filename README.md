@@ -12,12 +12,13 @@ Branding and information tags are stripped, and an attempt is made to standardiz
 
 ### SYNOPSIS ###
 
-`debrand-download [option] file(s)`
+`debrand-download [option(s)] file(s)`
 
 ### OPTIONS ###
 
 * `debrand-download -t file(s)` | `--test file(s)`: View the changes without making them
 * `debrand-download -y file(s)` | `--strip-year file(s)`: Strip the year from the end of the filename
+* `debrand-download -e file(s)` | `--episode-fix file(s)`: Fix episode tag information (ie: S01E01)
 * `debrand-download -h` | `--help`: Display this help
 
 ### EXAMPLES ###
