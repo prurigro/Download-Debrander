@@ -23,7 +23,7 @@
 SCENE=('0TV' '2HD' '2hd' 'ABH' 'ACAB' 'AFG' 'ANGELiC' 'ANON' 'anoXmous' 'ASAP' 'asap' 'BAJSKORV' 'BATV' 'BiA' 'BOKUTOX' 'BRiTiSH' 'BTN' 'BWB' 'C4TV' 'c4tv' 'CaRaT' 'CLOWNSEC' 'COMPULSiON' 'CRiMSON' 'DiNGO' 'DIMENSION' 'DHD' 'DUKES' 'ETRG' 'EVOLVE' 'EXCELLENCE' 'Fastbet99' 'FEVER' 'FiHTV' 'FoV' 'FTP' 'FQM' 'fqm' 'FUM' 'FXG' 'G2G' 'greenbud1969' 'GREY SHADOW' 'GSFTX' 'HerMes' 'IMMERSE' 'jAh' 'Judas' 'juggs' 'JYK' 'KILLERS' 'killers' 'LMAO' 'LOL' 'lol' 'Max' 'MiNDTHEGAP' 'MiNT' 'NoTV' 'NTb' 'ORENJI' 'Orenji' 'Pimp4003' 'P0W4' 'PhreakyFlix' 'PublicHD' 'QCF' 'rarbg' 'ReEnc' 'REKD' 'REMARKABLE' 'RiVER' 'RM' 'SaMettv' 'SFD' 'SYS' 'TERRA' 'TiTAN' 'TLA' 'tla' 'TMRG' 'TVSR' 'ViP3R' 'VTV' 'W4F' 'w4f' 'WNN' 'WS' 'YesTV' 'YIFY')
 
 #TAGS USED BY GROUPS TO GIVE INFORMATION ABOUT THE DOWNLOAD (NOT CASE SENSITIVE)
-INFO=('1080p' '5.1' '720p' 'aac2' 'aac2.0' 'aac' 'ac3' 'blu ray' 'bluray' 'brrip' 'dd5.1' 'dts' 'dvdscr' 'dvdrip' 'eng' 'esubs' 'ffmpeg' 'h.264' 'h264' 'hdrip' 'hdtv' 'pdtv' 'proper' 'r1' 'r2' 'r3' 'r4' 'r5' 'r6' 'r7' 'r8' 'r9' 'repack' 'ts' 'unrated' 'web-dl' 'web dl' 'webrip' 'x264' 'xvid')
+INFO=('1080p' '5\.1' '720p' 'aac2' 'aac2\.0' 'aac' 'ac3' 'blu ray' 'bluray' 'brrip' 'dd5\.1' 'dts' 'dvdscr' 'dvdrip' 'eng' 'esubs' 'ffmpeg' 'h\.264' 'h264' 'hdrip' 'hdtv' 'pdtv' 'proper' 'r1' 'r2' 'r3' 'r4' 'r5' 'r6' 'r7' 'r8' 'r9' 'repack' 'ts' 'unrated' 'web-dl' 'web dl' 'webrip' 'x264' 'xvid')
 
 function dd_help {
     SCRIPTNAME=$(sed 's/.*\///g' <<< "$0")
